@@ -1,0 +1,17 @@
+#!/usr/bin/env perl
+
+use ojo;
+
+plugin 'Config' => {
+  file => '/etc/default/checkip',
+  default => {
+    hypnotoad => {
+      listen => ['http://[::]:80'],
+    },
+  },
+};
+
+a("/" => sub {
+  $_->app->log->debug("Remote Address: ".$_->tx->remote_address);
+  $_->render(text=>$_->tx->remote_address."\n");
+})->start;
